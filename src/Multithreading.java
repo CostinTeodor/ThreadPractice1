@@ -8,7 +8,7 @@ public class Multithreading extends Thread {
     public void run() {
         while (LetterBag.lettersLeft != 0) {
             System.out.println(this.getName());
-            player.extractLetters();
+            player.pickLetter();
             player.generateWords();
 //            System.out.println("Letters left: " + LetterBag.lettersLeft);
 //            for (Letter l : letterBag.getLetters()

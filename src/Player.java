@@ -15,6 +15,35 @@ public class Player {
         name = Generators.alphabeticGenerator((int) (Math.random() * 10) + 1);
     }
 
+    public void pickLetter() {
+        while (noOfLetters < maxLetters) {
+            synchronized (this) {
+                if (noOfLetters + LetterBag.lettersLeft < maxLetters) {
+                    for (Letter l : letterBag.getLetters()
+                    ) {
+                        while (l.getCount() != 0) {
+                            letters.add(String.valueOf(l.getCharacter()));
+                            letterBag.useCharacter(l.getCharacter());
+                            LetterBag.lettersLeft--;
+                            noOfLetters++;
+                        }
+                    }
+
+                } else {
+                    Random r = new Random();
+                    char letter = (char) (r.nextInt('z' - 'a' + 1) + 'a');
+                    if (letterBag.getCountByChar(letter) != 0) {
+                        letters.add(String.valueOf(letter));
+                        letterBag.useCharacter(letter);
+                        noOfLetters++;
+                        LetterBag.lettersLeft--;
+                    }
+                }
+                return;
+            }
+        }
+    }
+
     synchronized void extractLetters() {
         while (noOfLetters < maxLetters) {
             if (noOfLetters + LetterBag.lettersLeft < maxLetters) {
